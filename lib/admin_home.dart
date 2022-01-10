@@ -89,6 +89,28 @@ class _AdmHomeState extends State<AdmHome> {
     setState(() {});
   }
 
+  Future<void> deleteAvlbCourses() async {
+    setState(() {
+      showLoading = true;
+    });
+    try {
+      final Dio _dio = Dio();
+      Response response = await _dio.get(
+        'https://course-registration-lnmiit.herokuapp.com/course/deleteAllAvailableCourse',
+      );
+      if (response.data.toString() == "success") {
+        Fluttertoast.showToast(msg: "Available Courses Successfully Deleted");
+      } else {
+        Fluttertoast.showToast(msg: "Courses not deleted. Please try again.");
+      }
+    } catch (e) {
+      Fluttertoast.showToast(msg: "Something went wrong");
+    }
+    setState(() {
+      showLoading = false;
+    });
+  }
+
   Future<void> fetchCoursesFromBranch() async {
     showLoading = true;
     setState(() {});
@@ -146,6 +168,34 @@ class _AdmHomeState extends State<AdmHome> {
             ),
           );
         });
+  }
+
+  _showDialog(BuildContext context) {
+    CupertinoAlertDialog alert = CupertinoAlertDialog(
+      title: const Text('Confirm?'),
+      content: const Text('Do you want to delete all course availability?'),
+      actions: [
+        CupertinoDialogAction(
+          child: const Text("Delete"),
+          onPressed: () {
+            Navigator.pop(context);
+            deleteAvlbCourses();
+          },
+        ),
+        CupertinoDialogAction(
+          child: const Text('Cancel'),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ],
+    );
+    return showCupertinoDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 
   _showPickerBranch() {
@@ -566,6 +616,38 @@ class _AdmHomeState extends State<AdmHome> {
                             const Icon(CupertinoIcons.eyeglasses),
                             20.widthBox,
                             "Courses for Semester".text.xl2.make()
+                          ],
+                        ).pOnly(left: 20),
+                      ),
+                    ).pOnly(left: 16, right: 16, bottom: 16),
+                    GestureDetector(
+                      onTap: () async {
+                        await _showDialog(context);
+                      },
+                      child: Container(
+                        height: 50,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              blurRadius: 7,
+                              offset: const Offset(
+                                  0, 3), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(CupertinoIcons.delete_simple),
+                            20.widthBox,
+                            "Delete Course Availability"
+                                .text
+                                .xl2
+                                .make()
+                                .expand()
                           ],
                         ).pOnly(left: 20),
                       ),

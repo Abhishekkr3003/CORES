@@ -100,6 +100,9 @@ class _StuHomeState extends State<StuHome> {
     } catch (e) {
       print(e);
     }
+    setState(() {
+      showLoading = false;
+    });
   }
 
   @override

@@ -382,9 +382,13 @@ class _AddCourseElectiveState extends State<AddCourseElective> {
                                             color: ((store.courseList![index]
                                                             .availableseats >
                                                         0) &&
-                                                    !registeredGrpId.contains(
+                                                    (!registeredGrpId.contains(
                                                         store.courseList?[index]
-                                                            .grp))
+                                                            .grp)) || registered[store
+                                                                  .courseList![
+                                                                      index]
+                                                                  .course_id]
+                                                              as bool)
                                                 ? Colors.black
                                                 : Colors.grey,
                                             borderRadius:

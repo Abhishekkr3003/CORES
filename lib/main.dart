@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Utils/my_store.dart';
 import 'package:flutter_application_1/add_available_course.dart';
+import 'package:flutter_application_1/splash_screen.dart';
 import 'package:flutter_application_1/student_home_page.dart';
 import 'package:flutter_application_1/add_admin.dart';
 import 'package:flutter_application_1/admin_home.dart';
@@ -37,22 +38,22 @@ class MyApp extends StatelessWidget {
           Theme.of(context).textTheme,
         ),
       ),
-      home: LoginPage(),
+      home: const Splash2(),
       routes: {
         MyRoutes.loginPage: (context) => LoginPage(),
         MyRoutes.adminHomePage: (context) => AdmHome(),
-        MyRoutes.addStudent: (context) => AddStudent(),
-        MyRoutes.viewStudent: (context) => ManageStudent(),
+        MyRoutes.addStudent: (context) => const AddStudent(),
+        MyRoutes.viewStudent: (context) => const ManageStudent(),
         MyRoutes.listStudent: (context) => StuDet(),
         // MyRoutes.editStudent: (context) => EditStudent(),
-        MyRoutes.addCourse: (context) => AddCourseAdm(),
+        MyRoutes.addCourse: (context) => const AddCourseAdm(),
         MyRoutes.viewCourse: (context) => ViewCourses(),
-        MyRoutes.addAdmin: (context) => AddAdmin(),
+        MyRoutes.addAdmin: (context) => const AddAdmin(),
         MyRoutes.studentHomePage: (context) => StuHome(),
-        MyRoutes.addElectiveCourse: (context) => AddCourseElective(),
-        MyRoutes.addCoreCourse: (context) => AddCourseCore(),
-        MyRoutes.viewRegisteredCourse: (context) => RegisteredCourse(),
-        MyRoutes.viewAvlbCourses: (context) => ViewAvlbCourses(),
+        MyRoutes.addElectiveCourse: (context) => const AddCourseElective(),
+        MyRoutes.addCoreCourse: (context) => const AddCourseCore(),
+        MyRoutes.viewRegisteredCourse: (context) => const RegisteredCourse(),
+        MyRoutes.viewAvlbCourses: (context) => const ViewAvlbCourses(),
       },
     );
   }

@@ -47,14 +47,15 @@ class _StuDetState extends State<StuDet> {
                   itemBuilder: (context, index) {
                     return ListTile(
                         // leading: Icon(CupertinoIcons.person_alt_circle),
-                        title: Text("${branches[index]}").centered(),
+                        title: Text(branches[index]).centered(),
                         onTap: () async {
-                          branch = "${branches[index]}";
+                          branch = branches[index];
                           setState(() {});
-                          if (branch == "All")
+                          if (branch == "All") {
                             fetchStudentList();
-                          else
+                          } else {
                             fetchStudentByBranch();
+                          }
                           Navigator.pop(context);
                         });
                   },
@@ -138,7 +139,8 @@ class _StuDetState extends State<StuDet> {
                           BoxShadow(
                             color: Colors.grey.withOpacity(0.5),
                             blurRadius: 7,
-                            offset: const Offset(0, 3), // changes position of shadow
+                            offset: const Offset(
+                                0, 3), // changes position of shadow
                           ),
                         ],
                       ),
@@ -169,7 +171,8 @@ class _StuDetState extends State<StuDet> {
                           BoxShadow(
                             color: Colors.grey.withOpacity(0.5),
                             blurRadius: 7,
-                            offset: const Offset(0, 3), // changes position of shadow
+                            offset: const Offset(
+                                0, 3), // changes position of shadow
                           ),
                         ],
                       ),
@@ -266,7 +269,7 @@ class _StuDetState extends State<StuDet> {
       store.studentListStore = StudentCatalog.studentCatalog;
 
       if (StudentCatalog.studentCatalog!.isEmpty) {
-        Fluttertoast.showToast(msg: "No course available.");
+        Fluttertoast.showToast(msg: "No Student available.");
         Navigator.pop(context);
       }
       setState(() {});
@@ -314,7 +317,7 @@ class _StuDetState extends State<StuDet> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: (StudentCatalog.studentCatalog != null &&
-                StudentCatalog.studentCatalog!.length > 0)
+                StudentCatalog.studentCatalog!.isNotEmpty)
             ? Column(
                 children: [
                   Row(
@@ -390,7 +393,9 @@ class _StuDetState extends State<StuDet> {
                   ),
                   10.heightBox,
                   showLoading
-                      ? const CupertinoActivityIndicator(radius: 20,).centered().pOnly(top: 200)
+                      ? const CupertinoActivityIndicator(
+                          radius: 20,
+                        ).centered().pOnly(top: 200)
                       : VxBuilder(
                           mutations: {SearchMutationStudent},
                           builder: (context, _, __) => ListView.builder(
@@ -471,7 +476,8 @@ class _StuDetState extends State<StuDet> {
                                                     .userid
                                                     .toString());
                                               },
-                                              icon: const Icon(CupertinoIcons.delete))
+                                              icon: const Icon(
+                                                  CupertinoIcons.delete))
                                         ],
                                       )
                                     ],
@@ -496,7 +502,7 @@ class _StuDetState extends State<StuDet> {
                 ],
               )
             : const Center(
-                child: const CircularProgressIndicator(
+                child: CircularProgressIndicator(
                   color: Colors.grey,
                 ),
               ),
