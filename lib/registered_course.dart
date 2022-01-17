@@ -29,7 +29,7 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
     try {
       final Dio _dio = Dio();
       Response response = await _dio.post(
-        'https://course-registration-lnmiit.herokuapp.com/course/getEnrolledCourses',
+        'https://guarded-mesa-99449.herokuapp.com/course/getEnrolledCourses',
         data: {"student_id": store.student.userid},
       );
       CourseList.courseList = List.from(response.data)
@@ -42,7 +42,7 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
       }
       setState(() {});
     } catch (e) {
-      print(e);
+      // print(e);
       Fluttertoast.showToast(msg: e.toString());
       setState(() {});
       Navigator.pop(context);
@@ -51,7 +51,6 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
 
   @override
   void initState() {
-    // TODO: implement initState
     fetchCourses();
     super.initState();
   }
@@ -71,7 +70,7 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
                         width: MediaQuery.of(context).size.width,
                         height: 70,
                         padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           color: Colors.black,
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(0),
@@ -110,7 +109,7 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
                       onChanged: (value) => SearchMutation(value),
                       borderRadius: BorderRadius.circular(10),
                     ).pLTRB(20, 20, 20, 20),
-                    Container(
+                    SizedBox(
                       height: 50,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -126,7 +125,7 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
                             radius: 20,
                           ).centered().pOnly(top: 200)
                         : VxBuilder(
-                            mutations: {SearchMutation},
+                            mutations: const {SearchMutation},
                             builder: (context, _, __) => ListView.builder(
                               physics: const ClampingScrollPhysics(),
                               shrinkWrap: true,
@@ -139,38 +138,32 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
                                         vertical: 10, horizontal: 10),
                                     child: Column(
                                       children: [
-                                        Container(
+                                        SizedBox(
                                           height: 70,
                                           child: Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceAround,
                                             children: [
-                                              Container(
+                                              SizedBox(
                                                 width: 50,
-                                                child:
-                                                    "${store.courseList![index].course_id}"
-                                                        .text
-                                                        .xl
-                                                        .center
-                                                        .make()
-                                                        .pOnly(left: 10),
+                                                child: store.courseList![index]
+                                                    .course_id.text.xl.center
+                                                    .make()
+                                                    .pOnly(left: 10),
                                               ),
                                               const VerticalDivider(
                                                 thickness: 1,
                                               ),
-                                              Container(
+                                              SizedBox(
                                                 width: 150,
-                                                child:
-                                                    "${store.courseList![index].coursename}"
-                                                        .text
-                                                        .xl
-                                                        .center
-                                                        .make(),
+                                                child: store.courseList![index]
+                                                    .coursename.text.xl.center
+                                                    .make(),
                                               ),
                                               const VerticalDivider(
                                                 thickness: 1,
                                               ),
-                                              Container(
+                                              SizedBox(
                                                 width: 40,
                                                 child:
                                                     "${store.courseList![index].credits}"

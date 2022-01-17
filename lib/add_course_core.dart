@@ -31,30 +31,30 @@ class _AddCourseCoreState extends State<AddCourseCore> {
       Response response;
       store.courseList?.forEach((course) async {
         response = await _dio.post(
-          'https://course-registration-lnmiit.herokuapp.com/course/addEnrollment',
+          'https://guarded-mesa-99449.herokuapp.com/course/addEnrollment',
           data: {
             "student_id": store.student.userid,
             "course_id": course.course_id
           },
         );
-        print(response.data);
+        // print(response.data);
       });
 
       Response response_ = await _dio.post(
-        'https://course-registration-lnmiit.herokuapp.com/course/isEnrolledInCourse',
+        'https://guarded-mesa-99449.herokuapp.com/course/isEnrolledInCourse',
         data: {
           "student_id": store.student.userid,
           "course_id": store.courseList![0].course_id
         },
       );
-      print(response_.data);
+      // print(response_.data);
       registered = true;
       Fluttertoast.showToast(msg: "Core Course Registered Successfully");
       setState(() {
         adding = false;
       });
     } catch (e) {
-      print(e);
+      // print(e);
       Fluttertoast.showToast(msg: e.toString());
       setState(() {
         adding = false;
@@ -79,7 +79,7 @@ class _AddCourseCoreState extends State<AddCourseCore> {
     try {
       final Dio _dio = Dio();
       Response response = await _dio.post(
-        'https://course-registration-lnmiit.herokuapp.com/course/getCoreCourses',
+        'https://guarded-mesa-99449.herokuapp.com/course/getCoreCourses',
         data: {
           "branch": store.student.branch,
           "semester": getSemesterFromJoiningYear()
@@ -91,14 +91,14 @@ class _AddCourseCoreState extends State<AddCourseCore> {
       store.courseList = CourseList.courseList;
       if (CourseList.courseList!.isNotEmpty) {
         response = await _dio.post(
-          'https://course-registration-lnmiit.herokuapp.com/course/isEnrolledInCourse',
+          'https://guarded-mesa-99449.herokuapp.com/course/isEnrolledInCourse',
           data: {
             "student_id": store.student.userid,
             "course_id": CourseList.courseList![0]
           },
         );
       }
-      print(response.data);
+      // print(response.data);
       registered = response.data;
       setState(() {});
       if (CourseList.courseList!.isEmpty) {
@@ -106,7 +106,7 @@ class _AddCourseCoreState extends State<AddCourseCore> {
         Navigator.pop(context);
       }
     } catch (e) {
-      print(e);
+      // print(e);
       Fluttertoast.showToast(msg: e.toString());
       setState(() {});
       Navigator.pop(context);
@@ -115,7 +115,6 @@ class _AddCourseCoreState extends State<AddCourseCore> {
 
   @override
   void initState() {
-    // TODO: implement initState
     fetchCourses();
     super.initState();
   }
@@ -167,7 +166,7 @@ class _AddCourseCoreState extends State<AddCourseCore> {
                         onChanged: (value) => SearchMutation(value),
                         borderRadius: BorderRadius.circular(10),
                       ).pLTRB(20, 20, 20, 20),
-                      Container(
+                      SizedBox(
                         height: 50,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -183,7 +182,7 @@ class _AddCourseCoreState extends State<AddCourseCore> {
                               color: Colors.grey,
                             ).centered().pOnly(top: 200)
                           : VxBuilder(
-                              mutations: {SearchMutation},
+                              mutations: const {SearchMutation},
                               builder: (context, _, __) => ListView.builder(
                                 shrinkWrap: true,
                                 itemCount: store.courseList!.length,
@@ -192,31 +191,29 @@ class _AddCourseCoreState extends State<AddCourseCore> {
                                     child: Container(
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 10, horizontal: 10),
-                                      child: Container(
+                                      child: SizedBox(
                                         height: 50,
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceAround,
                                           children: [
-                                            "${store.courseList![index].course_id}"
-                                                .text
-                                                .bold
-                                                .xl
-                                                .center
+                                            store.courseList![index].course_id
+                                                .text.bold.xl.center
                                                 .make()
                                                 .pOnly(left: 10),
                                             const VerticalDivider(
                                               thickness: 1,
                                             ),
-                                            Container(
+                                            SizedBox(
                                               width: 150,
-                                              child:
-                                                  "${store.courseList![index].coursename}"
-                                                      .text
-                                                      .bold
-                                                      .xl
-                                                      .center
-                                                      .make(),
+                                              child: store
+                                                  .courseList![index]
+                                                  .coursename
+                                                  .text
+                                                  .bold
+                                                  .xl
+                                                  .center
+                                                  .make(),
                                             ),
                                             const VerticalDivider(
                                               thickness: 1,
@@ -250,7 +247,7 @@ class _AddCourseCoreState extends State<AddCourseCore> {
                             ).pOnly(left: 10, right: 10),
                       20.heightBox,
                       adding
-                          ? CupertinoActivityIndicator()
+                          ? const CupertinoActivityIndicator()
                           : registered
                               ? GestureDetector(
                                   onTap: () {

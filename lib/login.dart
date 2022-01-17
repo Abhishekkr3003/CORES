@@ -12,6 +12,8 @@ import 'package:google_fonts/google_fonts.dart';
 bool adding = false;
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -29,28 +31,26 @@ class _LoginPageState extends State<LoginPage> {
             borderRadius: BorderRadius.vertical(top: Radius.circular(25.0))),
         builder: (BuildContext bc) {
           return SafeArea(
-            child: Container(
-              child: Wrap(
-                children: <Widget>[
-                  "Roles".text.bold.xl2.make().p12().centered(),
-                  ListTile(
-                      leading: const Icon(CupertinoIcons.person_alt_circle),
-                      title: const Text('Student'),
-                      onTap: () {
-                        role.text = "Student";
-                        setState(() {});
-                        Navigator.pop(context);
-                      }),
-                  ListTile(
-                      leading: const Icon(Icons.contacts_outlined),
-                      title: const Text('Admin'),
-                      onTap: () {
-                        role.text = "Admin";
-                        setState(() {});
-                        Navigator.pop(context);
-                      })
-                ],
-              ),
+            child: Wrap(
+              children: <Widget>[
+                "Roles".text.bold.xl2.make().p12().centered(),
+                ListTile(
+                    leading: const Icon(CupertinoIcons.person_alt_circle),
+                    title: const Text('Student'),
+                    onTap: () {
+                      role.text = "Student";
+                      setState(() {});
+                      Navigator.pop(context);
+                    }),
+                ListTile(
+                    leading: const Icon(Icons.contacts_outlined),
+                    title: const Text('Admin'),
+                    onTap: () {
+                      role.text = "Admin";
+                      setState(() {});
+                      Navigator.pop(context);
+                    })
+              ],
             ),
           );
         });
@@ -60,22 +60,22 @@ class _LoginPageState extends State<LoginPage> {
     try {
       final dio = Dio();
       Response response = await dio.post(
-          'https://course-registration-lnmiit.herokuapp.com/student/resetPassword',
+          'https://guarded-mesa-99449.herokuapp.com/student/resetPassword',
           data: {
             "userId": username.text,
           });
       if (response.data.toString() == "success") {
         String msg = "Password successfully sent.";
-        print(msg);
+        // print(msg);
         Fluttertoast.showToast(msg: msg);
       } else {
-        print(response.data);
+        // print(response.data);
         String msg = "User not found";
-        print(msg);
+        // print(msg);
         Fluttertoast.showToast(msg: msg);
       }
     } catch (e) {
-      print(e);
+      // print(e);
       Fluttertoast.showToast(msg: "Something went wrong!");
     }
   }
@@ -84,49 +84,46 @@ class _LoginPageState extends State<LoginPage> {
     showModalBottomSheet(
         isScrollControlled: true,
         shape: const RoundedRectangleBorder(
-            borderRadius:
-                const BorderRadius.vertical(top: const Radius.circular(25.0))),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(25.0))),
         context: context,
         builder: (BuildContext bc) {
           return SingleChildScrollView(
             child: Padding(
               padding: MediaQuery.of(context).viewInsets,
-              child: Container(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    "Forgot Password".text.bold.xl2.make().p12().centered(),
-                    CupertinoFormSection(children: [
-                      CupertinoFormRow(
-                        //padding: EdgeInsets.only(left: 0),
-                        child: CupertinoTextFormFieldRow(
-                          controller: username,
-                          style: GoogleFonts.poppins(),
-                          placeholder: "User ID",
-                          // prefix: "Email".text.make(),
-                          padding: const EdgeInsets.only(left: 0),
-                          keyboardType: TextInputType.emailAddress,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return "User ID can't be empty";
-                            }
-                            return null;
-                          },
-                          prefix: "User ID ".text.caption(context).make(),
-                        ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  "Forgot Password".text.bold.xl2.make().p12().centered(),
+                  CupertinoFormSection(children: [
+                    CupertinoFormRow(
+                      //padding: EdgeInsets.only(left: 0),
+                      child: CupertinoTextFormFieldRow(
+                        controller: username,
+                        style: GoogleFonts.poppins(),
+                        placeholder: "User ID",
+                        // prefix: "Email".text.make(),
+                        padding: const EdgeInsets.only(left: 0),
+                        keyboardType: TextInputType.emailAddress,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "User ID can't be empty";
+                          }
+                          return null;
+                        },
+                        prefix: "User ID ".text.caption(context).make(),
                       ),
-                      IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                            forgetPassword();
-                          },
-                          icon: const Icon(
-                            CupertinoIcons.right_chevron,
-                            size: 30,
-                          ))
-                    ])
-                  ],
-                ),
+                    ),
+                    IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          forgetPassword();
+                        },
+                        icon: const Icon(
+                          CupertinoIcons.right_chevron,
+                          size: 30,
+                        ))
+                  ])
+                ],
               ),
             ),
           );
@@ -141,7 +138,7 @@ class _LoginPageState extends State<LoginPage> {
         try {
           final Dio _dio = Dio();
           Response response = await _dio.post(
-            'https://course-registration-lnmiit.herokuapp.com/student/verify',
+            'https://guarded-mesa-99449.herokuapp.com/student/verify',
             data: {"userId": username.text, "passw": password.text},
             options: Options(
               followRedirects: false,
@@ -151,7 +148,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
           );
 
-          print('Login: ${response.data}');
+          // print('Login: ${response.data}');
 
           if (response.data.toString() == "User Not Found" ||
               response.data.toString() == "Incorrect Password") {
@@ -163,8 +160,8 @@ class _LoginPageState extends State<LoginPage> {
             Fluttertoast.showToast(msg: "Login Success as Student");
             final MyStore store = VxState.store;
             store.student = Student.fromMap(response.data);
-            print(store.student.name);
-            print(store.student.userid);
+            // print(store.student.name);
+            // print(store.student.userid);
 
             await Navigator.pushReplacementNamed(
                 context, MyRoutes.studentHomePage);
@@ -172,7 +169,7 @@ class _LoginPageState extends State<LoginPage> {
         } catch (e) {
           Fluttertoast.showToast(
               msg: "Oops! Something went wrong. Try Again...");
-          print('Error creating user: $e');
+          // print('Error creating user: $e');
           setState(() {
             adding = false;
           });
@@ -182,11 +179,11 @@ class _LoginPageState extends State<LoginPage> {
         try {
           final Dio _dio = Dio();
           Response response = await _dio.post(
-            'https://course-registration-lnmiit.herokuapp.com/admin/verify',
+            'https://guarded-mesa-99449.herokuapp.com/admin/verify',
             data: {"userId": username.text, "passw": password.text},
           );
-          print(response.data);
-          print('Login: ${response.data}');
+          // print(response.data);
+          // print('Login: ${response.data}');
 
           if (response.data.toString() == "Incorrect Password" ||
               response.data.toString() == "User Not Found") {
@@ -198,8 +195,8 @@ class _LoginPageState extends State<LoginPage> {
             Fluttertoast.showToast(msg: "Login Success as Admin");
             final MyStore store = VxState.store;
             store.admin = Admin.fromMap(response.data);
-            print(store.admin.name);
-            print(store.admin.userId);
+            // print(store.admin.name);
+            // print(store.admin.userId);
 
             await Navigator.pushReplacementNamed(
                 context, MyRoutes.adminHomePage);
@@ -207,7 +204,7 @@ class _LoginPageState extends State<LoginPage> {
         } catch (e) {
           Fluttertoast.showToast(
               msg: "Oops! Something went wrong. Try Again...");
-          print('Error creating user: $e');
+          // print('Error creating user: $e');
           setState(() {
             adding = false;
           });

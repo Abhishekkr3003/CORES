@@ -55,8 +55,8 @@ class CourseAvlb {
       course_id: map['course_id'] ?? '',
       semester: map['semester']?.toInt() ?? 0,
       branch: map['branch'] ?? '',
-      availableseats: map['availableseats']?.toInt() ?? 0,
-      totalseats: map['totalseats']?.toInt() ?? 0,
+      availableseats: map['availableSeats']?.toInt() ?? 0,
+      totalseats: map['totalSeats']?.toInt() ?? 0,
       grp: map['grp'] ?? '',
     );
   }

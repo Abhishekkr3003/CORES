@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-import 'package:flutter_application_1/course.dart';
-
 import 'Utils/my_store.dart';
 import 'student.dart';
 
@@ -39,14 +37,14 @@ class _EditStudentState extends State<EditStudent> {
                 "Branch".text.bold.xl2.make().p12().centered(),
                 ListView.builder(
                   itemCount: branches.length,
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     return ListTile(
                         // leading: Icon(CupertinoIcons.person_alt_circle),
-                        title: Text("${branches[index]}").centered(),
+                        title: Text(branches[index]).centered(),
                         onTap: () async {
-                          branch.text = "${branches[index]}";
+                          branch.text = branches[index];
                           setState(() {});
                           Navigator.pop(context);
                         });
@@ -80,7 +78,7 @@ class _EditStudentState extends State<EditStudent> {
       try {
         final Dio _dio = Dio();
         Response response = await _dio.post(
-          'https://course-registration-lnmiit.herokuapp.com/student/update',
+          'https://guarded-mesa-99449.herokuapp.com/student/update',
           data: {
             "userId": userID.text,
             "name": name.text,
@@ -95,7 +93,7 @@ class _EditStudentState extends State<EditStudent> {
         if (response.data.toString() == "success") {
           final Dio _dio = Dio();
           Response response_ = await _dio.get(
-            'https://course-registration-lnmiit.herokuapp.com/student/list',
+            'https://guarded-mesa-99449.herokuapp.com/student/list',
           );
           StudentCatalog.studentCatalog = List.from(response_.data)
               .map((itemMap) => Student.fromMap(itemMap))
@@ -131,142 +129,139 @@ class _EditStudentState extends State<EditStudent> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Container(
-          // padding: Vx.m32,
-          child: SingleChildScrollView(
-            child: Form(
-              key: _formKey2,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      "Edit Student Details".text.xl5.bold.make().expand(),
-                      IconButton(
-                        onPressed: () => Navigator.pop(context),
-                        icon: Icon(CupertinoIcons.chevron_back),
-                        iconSize: 40,
-                      )
-                    ],
-                  ).p20(),
+        child: SingleChildScrollView(
+          child: Form(
+            key: _formKey2,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    "Edit Student Details".text.xl5.bold.make().expand(),
+                    IconButton(
+                      onPressed: () => Navigator.pop(context),
+                      icon: const Icon(CupertinoIcons.chevron_back),
+                      iconSize: 40,
+                    )
+                  ],
+                ).p20(),
 
-                  // "Edit account".text.xl2.make(),
-                  "Edit ${widget.student_.name}'s details"
-                      .text
-                      .xl2
-                      .make()
-                      .pOnly(left: 20),
-                  CupertinoFormSection(
-                    backgroundColor: Colors.transparent,
-                    header: "Personal Details".text.make(),
-                    children: [
-                      CupertinoFormRow(
-                        //padding: EdgeInsets.only(left: 0),
-                        child: CupertinoTextFormFieldRow(
-                          controller: userID,
-                          enabled: false,
-                          placeholder: "Username",
-                          // prefix: "Email".text.make(),
-                          padding: EdgeInsets.only(left: 0),
-                          keyboardType: TextInputType.emailAddress,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return "Username can't be empty";
-                            }
-                            return null;
-                          },
-                          prefix: "Student ID ".text.caption(context).make(),
-                        ),
+                // "Edit account".text.xl2.make(),
+                "Edit ${widget.student_.name}'s details"
+                    .text
+                    .xl2
+                    .make()
+                    .pOnly(left: 20),
+                CupertinoFormSection(
+                  backgroundColor: Colors.transparent,
+                  header: "Personal Details".text.make(),
+                  children: [
+                    CupertinoFormRow(
+                      //padding: EdgeInsets.only(left: 0),
+                      child: CupertinoTextFormFieldRow(
+                        controller: userID,
+                        enabled: false,
+                        placeholder: "Username",
+                        // prefix: "Email".text.make(),
+                        padding: const EdgeInsets.only(left: 0),
+                        keyboardType: TextInputType.emailAddress,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Username can't be empty";
+                          }
+                          return null;
+                        },
+                        prefix: "Student ID ".text.caption(context).make(),
                       ),
-                      CupertinoFormRow(
-                        //padding: EdgeInsets.only(left: 0),
-                        child: CupertinoTextFormFieldRow(
-                          controller: name,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return "Name can't be empty";
-                            }
-                            return null;
-                          },
-                          placeholder: "Name",
-                          // prefix: "Name".text.make(),
-                          padding: EdgeInsets.only(left: 0),
-                          prefix: "Name ".text.caption(context).make(),
-                        ),
-                      ),
-                      CupertinoFormRow(
-                        //padding: EdgeInsets.only(left: 0),
-                        child: CupertinoTextFormFieldRow(
-                          controller: branch,
-                          onTap: _showPickerBranch,
-                          placeholder: "Branch",
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return "Branch can't be empty";
-                            }
-                            return null;
-                          },
-                          prefix: "Branch ".text.caption(context).make(),
-                          decoration: const BoxDecoration(color: Colors.white),
-                          readOnly: true,
-                          padding: EdgeInsets.only(left: 0),
-                        ),
-                      ),
-                      CupertinoFormRow(
-                        //padding: EdgeInsets.only(left: 0),
-                        child: CupertinoTextFormFieldRow(
-                          controller: joining_year,
-                          keyboardType: TextInputType.number,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return "Joining year can't be empty";
-                            }
-                            return null;
-                          },
-                          prefix: "Batch ".text.caption(context).make(),
-                          placeholder: "Joining Year",
-
-                          // prefix: "Username".text.make(),
-                          padding: EdgeInsets.only(left: 0),
-                        ),
-                      ),
-                    ],
-                  ).pOnly(left: 20, right: 20, top: 10),
-
-                  50.heightBox,
-                  Container(
-                    width: 70,
-                    height: 70,
-
-                    // color: Colors.white,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(50),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          blurRadius: 7,
-                          offset:
-                              const Offset(0, 3), // changes position of shadow
-                        ),
-                      ],
                     ),
-                    child: adding
-                        ? CircularProgressIndicator(
-                            color: Colors.grey,
-                          )
-                        : IconButton(
-                            onPressed: () {
-                              sendQuery();
-                            },
-                            icon: Icon(CupertinoIcons.checkmark_seal_fill),
-                            iconSize: 60,
-                            color: Colors.grey,
-                          ).centered(),
-                  ).centered(),
-                ],
-              ),
+                    CupertinoFormRow(
+                      //padding: EdgeInsets.only(left: 0),
+                      child: CupertinoTextFormFieldRow(
+                        controller: name,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Name can't be empty";
+                          }
+                          return null;
+                        },
+                        placeholder: "Name",
+                        // prefix: "Name".text.make(),
+                        padding: const EdgeInsets.only(left: 0),
+                        prefix: "Name ".text.caption(context).make(),
+                      ),
+                    ),
+                    CupertinoFormRow(
+                      //padding: EdgeInsets.only(left: 0),
+                      child: CupertinoTextFormFieldRow(
+                        controller: branch,
+                        onTap: _showPickerBranch,
+                        placeholder: "Branch",
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Branch can't be empty";
+                          }
+                          return null;
+                        },
+                        prefix: "Branch ".text.caption(context).make(),
+                        decoration: const BoxDecoration(color: Colors.white),
+                        readOnly: true,
+                        padding: const EdgeInsets.only(left: 0),
+                      ),
+                    ),
+                    CupertinoFormRow(
+                      //padding: EdgeInsets.only(left: 0),
+                      child: CupertinoTextFormFieldRow(
+                        controller: joining_year,
+                        keyboardType: TextInputType.number,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Joining year can't be empty";
+                          }
+                          return null;
+                        },
+                        prefix: "Batch ".text.caption(context).make(),
+                        placeholder: "Joining Year",
+
+                        // prefix: "Username".text.make(),
+                        padding: const EdgeInsets.only(left: 0),
+                      ),
+                    ),
+                  ],
+                ).pOnly(left: 20, right: 20, top: 10),
+
+                50.heightBox,
+                Container(
+                  width: 70,
+                  height: 70,
+
+                  // color: Colors.white,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(50),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        blurRadius: 7,
+                        offset:
+                            const Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                  child: adding
+                      ? const CircularProgressIndicator(
+                          color: Colors.grey,
+                        )
+                      : IconButton(
+                          onPressed: () {
+                            sendQuery();
+                          },
+                          icon: const Icon(CupertinoIcons.checkmark_seal_fill),
+                          iconSize: 60,
+                          color: Colors.grey,
+                        ).centered(),
+                ).centered(),
+              ],
             ),
           ),
         ),

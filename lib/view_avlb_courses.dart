@@ -1,15 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/add_available_course.dart';
-import 'package:flutter_application_1/edit_courses.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import 'package:flutter_application_1/Utils/my_store.dart';
-import 'package:flutter_application_1/Utils/routes.dart';
-import 'package:flutter_application_1/course.dart';
 
 import 'course_availability_class.dart';
 
@@ -33,7 +29,7 @@ class _ViewAvlbCoursesState extends State<ViewAvlbCourses> {
     try {
       final Dio _dio = Dio();
       Response response = await _dio.post(
-        'https://course-registration-lnmiit.herokuapp.com/course/updateTotalSeats',
+        'https://guarded-mesa-99449.herokuapp.com/course/updateTotalSeats',
         data: {
           "branch": courseAvlb.branch,
           "semester": courseAvlb.semester,
@@ -41,17 +37,17 @@ class _ViewAvlbCoursesState extends State<ViewAvlbCourses> {
           "totalSeats": newSeats.text
         },
       );
-      if (response.data.toString() == "success")
+      if (response.data.toString() == "success") {
         courseAvlb.totalseats = int.parse(newSeats.text);
-      else {
-        print("Not able to update");
+      } else {
+        // print("Not able to update");
         Fluttertoast.showToast(msg: "Not able to update");
       }
       setState(() {
         showLoading = false;
       });
     } catch (e) {
-      print(e);
+      // print(e);
       Fluttertoast.showToast(msg: "Some error occurred");
       showLoading = false;
       Navigator.pop(context);
@@ -60,7 +56,6 @@ class _ViewAvlbCoursesState extends State<ViewAvlbCourses> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -68,49 +63,46 @@ class _ViewAvlbCoursesState extends State<ViewAvlbCourses> {
     showModalBottomSheet(
         isScrollControlled: true,
         shape: const RoundedRectangleBorder(
-            borderRadius:
-                const BorderRadius.vertical(top: const Radius.circular(25.0))),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(25.0))),
         context: context,
         builder: (BuildContext bc) {
           return SingleChildScrollView(
             child: Padding(
               padding: MediaQuery.of(context).viewInsets,
-              child: Container(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    "Update Total Seats".text.bold.xl2.make().p12().centered(),
-                    CupertinoFormSection(children: [
-                      CupertinoFormRow(
-                        //padding: EdgeInsets.only(left: 0),
-                        child: CupertinoTextFormFieldRow(
-                          controller: newSeats,
-                          style: GoogleFonts.poppins(),
-                          placeholder: "Enter total seats",
-                          // prefix: "Email".text.make(),
-                          padding: const EdgeInsets.only(left: 0),
-                          keyboardType: TextInputType.emailAddress,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return "Total seats can't be empty";
-                            }
-                            return null;
-                          },
-                          prefix: "Total Seats ".text.caption(context).make(),
-                        ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  "Update Total Seats".text.bold.xl2.make().p12().centered(),
+                  CupertinoFormSection(children: [
+                    CupertinoFormRow(
+                      //padding: EdgeInsets.only(left: 0),
+                      child: CupertinoTextFormFieldRow(
+                        controller: newSeats,
+                        style: GoogleFonts.poppins(),
+                        placeholder: "Enter total seats",
+                        // prefix: "Email".text.make(),
+                        padding: const EdgeInsets.only(left: 0),
+                        keyboardType: TextInputType.emailAddress,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Total seats can't be empty";
+                          }
+                          return null;
+                        },
+                        prefix: "Total Seats ".text.caption(context).make(),
                       ),
-                      IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                            updateSeats(courseAvlb);
-                          },
-                          icon: const Icon(
-                            CupertinoIcons.right_chevron,
-                            size: 30,
-                          ))
-                    ])
-                  ],
-                ),
+                    ),
+                    IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          updateSeats(courseAvlb);
+                        },
+                        icon: const Icon(
+                          CupertinoIcons.right_chevron,
+                          size: 30,
+                        ))
+                  ])
+                ],
               ),
             ),
           );
@@ -194,13 +186,14 @@ class _ViewAvlbCoursesState extends State<ViewAvlbCourses> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Container(
+                                    SizedBox(
                                       height: 30,
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceAround,
                                         children: [
-                                          store.courseAvlbList![index].course_id.toString()
+                                          store.courseAvlbList![index].course_id
+                                              .toString()
                                               .text
                                               .bold
                                               .center
@@ -209,7 +202,8 @@ class _ViewAvlbCoursesState extends State<ViewAvlbCourses> {
                                           const VerticalDivider(
                                             thickness: 1,
                                           ),
-                                          store.courseAvlbList![index].semester.toString()
+                                          store.courseAvlbList![index].semester
+                                              .toString()
                                               .text
                                               .bold
                                               .center
@@ -217,7 +211,8 @@ class _ViewAvlbCoursesState extends State<ViewAvlbCourses> {
                                           const VerticalDivider(
                                             thickness: 1,
                                           ),
-                                          store.courseAvlbList![index].branch.toString()
+                                          store.courseAvlbList![index].branch
+                                              .toString()
                                               .text
                                               .bold
                                               .center
@@ -226,7 +221,8 @@ class _ViewAvlbCoursesState extends State<ViewAvlbCourses> {
                                           const VerticalDivider(
                                             thickness: 1,
                                           ),
-                                          store.courseAvlbList![index].grp.toString()
+                                          store.courseAvlbList![index].grp
+                                              .toString()
                                               .text
                                               .bold
                                               .center
@@ -242,8 +238,7 @@ class _ViewAvlbCoursesState extends State<ViewAvlbCourses> {
                                       padding: const EdgeInsets.all(4),
                                       decoration: BoxDecoration(
                                         color: Colors.black,
-                                        borderRadius:
-                                            BorderRadius.circular(30),
+                                        borderRadius: BorderRadius.circular(30),
                                       ),
                                       child:
                                           "Available Seats: ${store.courseAvlbList![index].availableseats.toString()}"
@@ -265,14 +260,15 @@ class _ViewAvlbCoursesState extends State<ViewAvlbCourses> {
                                               BorderRadius.circular(30),
                                         ),
                                         child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             "Total Seats: ${store.courseAvlbList![index].totalseats.toString()}"
                                                 .text
                                                 .center
                                                 .white
                                                 .make(),
-                                                VerticalDivider(),
+                                            const VerticalDivider(),
                                             const Icon(
                                               CupertinoIcons.pencil_circle,
                                               color: Vx.white,
@@ -303,8 +299,8 @@ class _ViewAvlbCoursesState extends State<ViewAvlbCourses> {
                 ),
               )
             : const Center(
-                child: CircularProgressIndicator(
-                  color: Colors.grey,
+                child: CupertinoActivityIndicator(
+                  radius: 20,
                 ),
               ),
       ),

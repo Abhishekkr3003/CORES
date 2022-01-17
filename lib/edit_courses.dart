@@ -45,7 +45,7 @@ class _EditCoursesState extends State<EditCourses> {
   _showPickerCType() {
     showModalBottomSheet(
         context: context,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(25.0))),
         builder: (BuildContext bc) {
           return SingleChildScrollView(
@@ -54,14 +54,14 @@ class _EditCoursesState extends State<EditCourses> {
                 "Course Type".text.bold.xl2.make().p12().centered(),
                 ListView.builder(
                   itemCount: cType.length,
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     return ListTile(
                         // leading: Icon(CupertinoIcons.person_alt_circle),
-                        title: Text("${cType[index]}").centered(),
+                        title: Text(cType[index]).centered(),
                         onTap: () async {
-                          type.text = "${cType[index]}";
+                          type.text = cType[index];
                           setState(() {});
                           Navigator.pop(context);
                         });
@@ -76,12 +76,12 @@ class _EditCoursesState extends State<EditCourses> {
   Future<void> sendQuery() async {
     if (_formKey2.currentState!.validate()) {
       adding = true;
-      print(adding);
+      // print(adding);
       setState(() {});
       try {
         final Dio _dio = Dio();
         Response response = await _dio.post(
-          'https://course-registration-lnmiit.herokuapp.com/course/updateCourse',
+          'https://guarded-mesa-99449.herokuapp.com/course/updateCourse',
           data: {
             "course_id": courseID.text,
             "coursename": name.text,
@@ -90,11 +90,11 @@ class _EditCoursesState extends State<EditCourses> {
           },
         );
 
-        print('Updating: ${response.data}');
+        // print('Updating: ${response.data}');
 
         if (response.data.toString() == "success") {
           Response response_ = await _dio.get(
-            'https://course-registration-lnmiit.herokuapp.com/course/list',
+            'https://guarded-mesa-99449.herokuapp.com/course/list',
           );
           CourseList.courseList = List.from(response_.data)
               .map((itemMap) => Course.fromMap(itemMap))
@@ -109,7 +109,7 @@ class _EditCoursesState extends State<EditCourses> {
           setState(() {
             adding = false;
           });
-          print(response.data);
+          // print(response.data);
           Fluttertoast.showToast(msg: "Not able to update.");
         }
       } catch (e) {
@@ -117,7 +117,7 @@ class _EditCoursesState extends State<EditCourses> {
           adding = false;
         });
         Fluttertoast.showToast(msg: 'Some error occured');
-        print('Error: $e');
+        // print('Error: $e');
       }
     }
   }
@@ -140,7 +140,7 @@ class _EditCoursesState extends State<EditCourses> {
                       "Edit Course Details".text.xl5.bold.make().expand(),
                       IconButton(
                         onPressed: () => Navigator.pop(context),
-                        icon: Icon(CupertinoIcons.chevron_back),
+                        icon: const Icon(CupertinoIcons.chevron_back),
                         iconSize: 40,
                       )
                     ],
@@ -163,7 +163,7 @@ class _EditCoursesState extends State<EditCourses> {
                           },
                           placeholder: "Name",
                           prefix: "Name".text.caption(context).make(),
-                          padding: EdgeInsets.only(left: 0),
+                          padding: const EdgeInsets.only(left: 0),
                         ),
                       ),
                       CupertinoFormRow(
@@ -179,7 +179,7 @@ class _EditCoursesState extends State<EditCourses> {
                           placeholder: "ID",
                           readOnly: true,
                           prefix: "ID".text.caption(context).make(),
-                          padding: EdgeInsets.only(left: 0),
+                          padding: const EdgeInsets.only(left: 0),
                         ),
                       ),
                       CupertinoFormRow(
@@ -197,7 +197,7 @@ class _EditCoursesState extends State<EditCourses> {
                           prefix: "Type ".text.caption(context).make(),
                           decoration: const BoxDecoration(color: Colors.white),
                           readOnly: true,
-                          padding: EdgeInsets.only(left: 0),
+                          padding: const EdgeInsets.only(left: 0),
                         ),
                       ),
                       CupertinoFormRow(
@@ -215,7 +215,7 @@ class _EditCoursesState extends State<EditCourses> {
                           keyboardType: TextInputType.number,
 
                           prefix: "Credits".text.caption(context).make(),
-                          padding: EdgeInsets.only(left: 0),
+                          padding: const EdgeInsets.only(left: 0),
                         ),
                       ),
                     ],
@@ -240,14 +240,15 @@ class _EditCoursesState extends State<EditCourses> {
                       ],
                     ),
                     child: adding
-                        ? CircularProgressIndicator(
+                        ? const CircularProgressIndicator(
                             color: Colors.grey,
                           )
                         : IconButton(
                             onPressed: () {
                               sendQuery();
                             },
-                            icon: Icon(CupertinoIcons.checkmark_seal_fill),
+                            icon:
+                                const Icon(CupertinoIcons.checkmark_seal_fill),
                             iconSize: 60,
                             color: Colors.grey,
                           ).centered(),

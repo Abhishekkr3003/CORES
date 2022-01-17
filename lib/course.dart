@@ -64,12 +64,10 @@ class Course {
       coursename: map['coursename'] ?? '',
       type: map['type'] ?? '',
       credits: map['credits']?.toInt() ?? 0,
-      availableseats: map['availableseats']?.toInt() ?? 0,
+      availableseats: map['availableSeats']?.toInt() ?? 0,
       grp: map['grp'] ?? '',
     );
   }
-
-  
 
   String toJson() => json.encode(toMap());
 

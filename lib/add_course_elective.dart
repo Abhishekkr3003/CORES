@@ -1,13 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_application_1/Utils/routes.dart';
-import 'package:flutter_application_1/student.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
-import 'package:intl/number_symbols.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import 'Utils/my_store.dart';
@@ -51,7 +47,7 @@ class _AddCourseElectiveState extends State<AddCourseElective> {
       Response response;
 
       response = await _dio.post(
-        'https://course-registration-lnmiit.herokuapp.com/course/decreaseAvailableSeats',
+        'https://guarded-mesa-99449.herokuapp.com/course/decreaseAvailableSeats',
         data: {
           "branch": store.student.branch,
           "course_id": course.course_id,
@@ -62,7 +58,7 @@ class _AddCourseElectiveState extends State<AddCourseElective> {
       if (response.data.toString() != "Seats Not Available") {
         store.courseList![index].availableseats = response.data;
         response = await _dio.post(
-          'https://course-registration-lnmiit.herokuapp.com/course/addEnrollment',
+          'https://guarded-mesa-99449.herokuapp.com/course/addEnrollment',
           data: {
             "student_id": store.student.userid,
             "course_id": course.course_id
@@ -71,7 +67,7 @@ class _AddCourseElectiveState extends State<AddCourseElective> {
         if (response.data.toString() == "success") {
           registered[course.course_id] =
               !(registered[course.course_id] as bool);
-          print(registered[index]);
+          // print(registered[index]);
           registeredGrpId.add(course.grp);
           setState(() {
             adding[index] = false;
@@ -85,7 +81,7 @@ class _AddCourseElectiveState extends State<AddCourseElective> {
         adding[index] = false;
       });
     } catch (e) {
-      print(e);
+      // print(e);
       Fluttertoast.showToast(msg: e.toString());
       setState(() {
         adding[index] = false;
@@ -102,7 +98,7 @@ class _AddCourseElectiveState extends State<AddCourseElective> {
       Response response;
 
       response = await _dio.post(
-        'https://course-registration-lnmiit.herokuapp.com/course/getAvailableSeats',
+        'https://guarded-mesa-99449.herokuapp.com/course/getAvailableSeats',
         data: {
           "branch": store.student.branch,
           "course_id": course.course_id,
@@ -117,14 +113,14 @@ class _AddCourseElectiveState extends State<AddCourseElective> {
           adding[index] = false;
         });
       } else {
-        print("Doesn't return a number");
+        // print("Doesn't return a number");
         Fluttertoast.showToast(msg: "Not able to refresh!");
         setState(() {
           adding[index] = false;
         });
       }
     } catch (e) {
-      print(e);
+      // print(e);
       Fluttertoast.showToast(msg: "Not able to refresh!");
       setState(() {
         adding[index] = false;
@@ -140,7 +136,7 @@ class _AddCourseElectiveState extends State<AddCourseElective> {
       Response response;
 
       response = await _dio.post(
-        'https://course-registration-lnmiit.herokuapp.com/course/increaseAvailableSeats',
+        'https://guarded-mesa-99449.herokuapp.com/course/increaseAvailableSeats',
         data: {
           "branch": store.student.branch,
           "course_id": course.course_id,
@@ -150,7 +146,7 @@ class _AddCourseElectiveState extends State<AddCourseElective> {
       if (response.data.toString() != "Not Allowed") {
         store.courseList![index].availableseats = response.data;
         response = await _dio.post(
-          'https://course-registration-lnmiit.herokuapp.com/course/deleteEnrollment',
+          'https://guarded-mesa-99449.herokuapp.com/course/deleteEnrollment',
           data: {
             "student_id": store.student.userid,
             "course_id": course.course_id
@@ -170,7 +166,7 @@ class _AddCourseElectiveState extends State<AddCourseElective> {
         adding[index] = false;
       });
     } catch (e) {
-      print(e);
+      // print(e);
       Fluttertoast.showToast(msg: e.toString());
       setState(() {
         adding[index] = false;
@@ -187,7 +183,7 @@ class _AddCourseElectiveState extends State<AddCourseElective> {
     try {
       final Dio _dio = Dio();
       Response response = await _dio.post(
-        'https://course-registration-lnmiit.herokuapp.com/course/getElectiveCourses',
+        'https://guarded-mesa-99449.herokuapp.com/course/getElectiveCourses',
         data: {
           "branch": store.student.branch,
           "semester": getSemesterFromJoiningYear()
@@ -200,19 +196,19 @@ class _AddCourseElectiveState extends State<AddCourseElective> {
           .toList()
           .forEach((element) async {
         response = await _dio.post(
-          'https://course-registration-lnmiit.herokuapp.com/course/isEnrolledInCourse',
+          'https://guarded-mesa-99449.herokuapp.com/course/isEnrolledInCourse',
           data: {
             "student_id": store.student.userid,
             "course_id": element.course_id
           },
         );
-        print(response.data);
+        // print(response.data);
         registered[element.course_id] = response.data as bool;
         if (response.data) {
           registeredGrpId.add(element.grp);
         }
         adding.add(false);
-        print("Reg grp id: " + registeredGrpId.toString());
+        // print("Reg grp id: " + registeredGrpId.toString());
         if (registered.length == CourseList.courseList!.length) setState(() {});
       });
       CourseList.courseList = await List.from(temp.data)
@@ -233,7 +229,7 @@ class _AddCourseElectiveState extends State<AddCourseElective> {
         Navigator.pop(context);
       }
     } catch (e) {
-      print(e);
+      // print(e);
       Fluttertoast.showToast(msg: e.toString());
       setState(() {});
       Navigator.pop(context);
@@ -242,7 +238,6 @@ class _AddCourseElectiveState extends State<AddCourseElective> {
 
   @override
   void initState() {
-    // TODO: implement initState
     fetchCourses();
     super.initState();
   }
@@ -380,15 +375,16 @@ class _AddCourseElectiveState extends State<AddCourseElective> {
                                         Container(
                                           decoration: BoxDecoration(
                                             color: ((store.courseList![index]
-                                                            .availableseats >
-                                                        0) &&
-                                                    (!registeredGrpId.contains(
-                                                        store.courseList?[index]
-                                                            .grp)) || registered[store
-                                                                  .courseList![
-                                                                      index]
-                                                                  .course_id]
-                                                              as bool)
+                                                                .availableseats >
+                                                            0) &&
+                                                        (!registeredGrpId
+                                                            .contains(store
+                                                                .courseList?[
+                                                                    index]
+                                                                .grp)) ||
+                                                    registered[store
+                                                        .courseList![index]
+                                                        .course_id] as bool)
                                                 ? Colors.black
                                                 : Colors.grey,
                                             borderRadius:

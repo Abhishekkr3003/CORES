@@ -14,6 +14,8 @@ import 'student.dart';
 bool showLoading = false;
 
 class StuDet extends StatefulWidget {
+  const StuDet({Key? key}) : super(key: key);
+
   @override
   State<StuDet> createState() => _StuDetState();
 }
@@ -76,29 +78,27 @@ class _StuDetState extends State<StuDet> {
           return SingleChildScrollView(
             child: Padding(
               padding: MediaQuery.of(context).viewInsets,
-              child: Container(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    "Batch".text.bold.xl2.make().p12().centered(),
-                    CupertinoFormSection(children: [
-                      CupertinoTextFormFieldRow(
-                        controller: joining_year,
-                        placeholder: "Type Here",
-                        textAlign: TextAlign.center,
-                      ).centered(),
-                      IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                            fetchStudentByYear();
-                          },
-                          icon: const Icon(
-                            CupertinoIcons.search,
-                            size: 30,
-                          ))
-                    ])
-                  ],
-                ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  "Batch".text.bold.xl2.make().p12().centered(),
+                  CupertinoFormSection(children: [
+                    CupertinoTextFormFieldRow(
+                      controller: joining_year,
+                      placeholder: "Type Here",
+                      textAlign: TextAlign.center,
+                    ).centered(),
+                    IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          fetchStudentByYear();
+                        },
+                        icon: const Icon(
+                          CupertinoIcons.search,
+                          size: 30,
+                        ))
+                  ])
+                ],
               ),
             ),
           );
@@ -113,7 +113,7 @@ class _StuDetState extends State<StuDet> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const SizedBox(height: 15.0),
-            Container(
+            SizedBox(
               height: 70,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -209,7 +209,7 @@ class _StuDetState extends State<StuDet> {
     try {
       final Dio _dio = Dio();
       Response response = await _dio.get(
-        'https://course-registration-lnmiit.herokuapp.com/student/list',
+        'https://guarded-mesa-99449.herokuapp.com/student/list',
       );
 
       StudentCatalog.studentCatalog = List.from(response.data)
@@ -224,7 +224,7 @@ class _StuDetState extends State<StuDet> {
       }
       setState(() {});
     } catch (e) {
-      print(e);
+      // print(e);
       Fluttertoast.showToast(msg: e.toString());
     }
   }
@@ -235,7 +235,7 @@ class _StuDetState extends State<StuDet> {
     try {
       final Dio _dio = Dio();
       Response response = await _dio.post(
-          'https://course-registration-lnmiit.herokuapp.com/student/getStudentsByBranch',
+          'https://guarded-mesa-99449.herokuapp.com/student/getStudentsByBranch',
           data: {"Branch": branch});
       StudentCatalog.studentCatalog = List.from(response.data)
           .map((itemMap) => Student.fromMap(itemMap))
@@ -249,7 +249,7 @@ class _StuDetState extends State<StuDet> {
       }
       setState(() {});
     } catch (e) {
-      print(e);
+      // print(e);
       Fluttertoast.showToast(msg: e.toString());
     }
   }
@@ -260,7 +260,7 @@ class _StuDetState extends State<StuDet> {
     try {
       final Dio _dio = Dio();
       Response response = await _dio.post(
-          'https://course-registration-lnmiit.herokuapp.com/student/getStudentsByYear',
+          'https://guarded-mesa-99449.herokuapp.com/student/getStudentsByYear',
           data: {"joining_year": joining_year.text});
       StudentCatalog.studentCatalog = List.from(response.data)
           .map((itemMap) => Student.fromMap(itemMap))
@@ -274,7 +274,7 @@ class _StuDetState extends State<StuDet> {
       }
       setState(() {});
     } catch (e) {
-      print(e);
+      // print(e);
       Fluttertoast.showToast(msg: e.toString());
     }
   }
@@ -284,20 +284,20 @@ class _StuDetState extends State<StuDet> {
     try {
       final Dio _dio = Dio();
       Response response = await _dio.post(
-          'https://course-registration-lnmiit.herokuapp.com/student/delete',
+          'https://guarded-mesa-99449.herokuapp.com/student/delete',
           data: {"userId": userID});
-      print('Deleting: ${response.data}');
+      // print('Deleting: ${response.data}');
 
       if (response.data.toString() == "success") {
-        print("Student successfully deleted");
+        // print("Student successfully deleted");
         Fluttertoast.showToast(msg: "Student successfully deleted");
         await fetchStudentList();
       } else {
-        print("Something went wrong");
+        // print("Something went wrong");
         Fluttertoast.showToast(msg: "Something went wrong");
       }
     } catch (e) {
-      print(e);
+      // print(e);
       Fluttertoast.showToast(msg: e.toString());
     }
     showLoading = false;
@@ -306,7 +306,6 @@ class _StuDetState extends State<StuDet> {
 
   @override
   void initState() {
-    // TODO: implement initState
     fetchStudentList();
     super.initState();
   }
@@ -397,7 +396,7 @@ class _StuDetState extends State<StuDet> {
                           radius: 20,
                         ).centered().pOnly(top: 200)
                       : VxBuilder(
-                          mutations: {SearchMutationStudent},
+                          mutations: const {SearchMutationStudent},
                           builder: (context, _, __) => ListView.builder(
                             shrinkWrap: true,
                             itemCount: store.studentListStore!.length,
@@ -410,7 +409,7 @@ class _StuDetState extends State<StuDet> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
-                                      Container(
+                                      SizedBox(
                                         height: 30,
                                         child: Row(
                                           mainAxisAlignment:
@@ -502,8 +501,8 @@ class _StuDetState extends State<StuDet> {
                 ],
               )
             : const Center(
-                child: CircularProgressIndicator(
-                  color: Colors.grey,
+                child: CupertinoActivityIndicator(
+                  radius: 20,
                 ),
               ),
       ),

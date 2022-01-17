@@ -1,17 +1,17 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_application_1/Utils/routes.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'Utils/my_store.dart';
 import 'course.dart';
-import 'course_availability_class.dart';
 
 bool showLoading = false;
 
 class StuHome extends StatefulWidget {
+  const StuHome({Key? key}) : super(key: key);
+
   @override
   State<StuHome> createState() => _StuHomeState();
 }
@@ -32,7 +32,7 @@ class _StuHomeState extends State<StuHome> {
         Response response;
 
         await _dio.post(
-          'https://course-registration-lnmiit.herokuapp.com/course/isEnrolledInCourse',
+          'https://guarded-mesa-99449.herokuapp.com/course/isEnrolledInCourse',
           data: {
             "student_id": store.student.userid,
             "course_id": store.courseList![0].course_id
@@ -42,13 +42,13 @@ class _StuHomeState extends State<StuHome> {
           if (!(response_.data)) {
             store.courseList?.forEach((course) async {
               response = await _dio.post(
-                'https://course-registration-lnmiit.herokuapp.com/course/addEnrollment',
+                'https://guarded-mesa-99449.herokuapp.com/course/addEnrollment',
                 data: {
                   "student_id": store.student.userid,
                   "course_id": course.course_id
                 },
               );
-              print(response.data);
+              // print(response.data);
               // Fluttertoast.showToast(
               //     msg: "Core Course Registered Successfully");
             });
@@ -58,7 +58,7 @@ class _StuHomeState extends State<StuHome> {
           });
         });
       } catch (e) {
-        print(e);
+        // print(e);
         Fluttertoast.showToast(msg: e.toString());
         setState(() {
           showLoading = false;
@@ -86,13 +86,13 @@ class _StuHomeState extends State<StuHome> {
     try {
       final Dio _dio = Dio();
       Response response = await _dio.post(
-        'https://course-registration-lnmiit.herokuapp.com/course/getCoreCourses',
+        'https://guarded-mesa-99449.herokuapp.com/course/getCoreCourses',
         data: {
           "branch": store.student.branch,
           "semester": getSemesterFromJoiningYear()
         },
       );
-      print(response.data);
+      // print(response.data);
       CourseList.courseList = List.from(response.data)
           .map((itemMap) => Course.fromMap(itemMap))
           .toList();
@@ -116,29 +116,29 @@ class _StuHomeState extends State<StuHome> {
       setState(() {});
       final dio = Dio();
       Response response = await dio.post(
-          'https://course-registration-lnmiit.herokuapp.com/student/updatePassword',
+          'https://guarded-mesa-99449.herokuapp.com/student/updatePassword',
           data: {
             "userId": store.student.userid,
             "passw": oldPassw.text,
             "newpassw": newPass.text
           });
-      print(response.data);
+      // print(response.data);
       if (response.data.toString() == "Success") {
         String msg = "Password successfully changed.";
-        print(msg);
+        // print(msg);
         Fluttertoast.showToast(msg: msg);
         oldPassw.clear();
         newPass.clear();
       } else {
         String msg = "Incorrect Password";
-        print(msg);
+        // print(msg);
         Fluttertoast.showToast(msg: msg);
       }
       setState(() {
         showLoading = false;
       });
     } catch (e) {
-      print(e);
+      // print(e);
       setState(() {
         showLoading = false;
       });
@@ -156,61 +156,59 @@ class _StuHomeState extends State<StuHome> {
           return SingleChildScrollView(
             child: Padding(
               padding: MediaQuery.of(context).viewInsets,
-              child: Container(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    "Update Password".text.bold.xl2.make().p12().centered(),
-                    CupertinoFormSection(children: [
-                      CupertinoFormRow(
-                        //padding: EdgeInsets.only(left: 0),
-                        child: CupertinoTextFormFieldRow(
-                          controller: oldPassw,
-                          obscureText: true,
-                          placeholder: "Old Password",
-                          // prefix: "Email".text.make(),
-                          padding: const EdgeInsets.only(left: 0),
-                          keyboardType: TextInputType.emailAddress,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return "Old Password can't be empty";
-                            }
-                            return null;
-                          },
-                          prefix: "Old Password ".text.caption(context).make(),
-                        ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  "Update Password".text.bold.xl2.make().p12().centered(),
+                  CupertinoFormSection(children: [
+                    CupertinoFormRow(
+                      //padding: EdgeInsets.only(left: 0),
+                      child: CupertinoTextFormFieldRow(
+                        controller: oldPassw,
+                        obscureText: true,
+                        placeholder: "Old Password",
+                        // prefix: "Email".text.make(),
+                        padding: const EdgeInsets.only(left: 0),
+                        keyboardType: TextInputType.emailAddress,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Old Password can't be empty";
+                          }
+                          return null;
+                        },
+                        prefix: "Old Password ".text.caption(context).make(),
                       ),
-                      CupertinoFormRow(
-                        //padding: EdgeInsets.only(left: 0),
-                        child: CupertinoTextFormFieldRow(
-                          controller: newPass,
-                          obscureText: true,
-                          placeholder: "New Password",
-                          // prefix: "Email".text.make(),
-                          padding: const EdgeInsets.only(left: 0),
-                          keyboardType: TextInputType.emailAddress,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return "New Password can't be empty";
-                            }
-                            return null;
-                          },
-                          prefix: "New Password ".text.caption(context).make(),
-                        ),
+                    ),
+                    CupertinoFormRow(
+                      //padding: EdgeInsets.only(left: 0),
+                      child: CupertinoTextFormFieldRow(
+                        controller: newPass,
+                        obscureText: true,
+                        placeholder: "New Password",
+                        // prefix: "Email".text.make(),
+                        padding: const EdgeInsets.only(left: 0),
+                        keyboardType: TextInputType.emailAddress,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "New Password can't be empty";
+                          }
+                          return null;
+                        },
+                        prefix: "New Password ".text.caption(context).make(),
                       ),
-                      IconButton(
-                          onPressed: () async {
-                            Navigator.pop(context);
-                            updatePassword();
-                            // fetchStudentByYear();
-                          },
-                          icon: const Icon(
-                            CupertinoIcons.right_chevron,
-                            size: 30,
-                          ))
-                    ])
-                  ],
-                ),
+                    ),
+                    IconButton(
+                        onPressed: () async {
+                          Navigator.pop(context);
+                          updatePassword();
+                          // fetchStudentByYear();
+                        },
+                        icon: const Icon(
+                          CupertinoIcons.right_chevron,
+                          size: 30,
+                        ))
+                  ])
+                ],
               ),
             ),
           );
@@ -363,7 +361,7 @@ class _StuHomeState extends State<StuHome> {
                       onTap: () async {
                         await fetchCourses();
                         await doEnrollment();
-                        print("changingPages");
+                        // print("changingPages");
                         Navigator.pushNamed(
                             context, MyRoutes.addElectiveCourse);
                       },

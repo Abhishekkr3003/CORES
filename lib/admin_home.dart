@@ -10,6 +10,8 @@ import 'course_availability_class.dart';
 bool showLoading = false;
 
 class AdmHome extends StatefulWidget {
+  const AdmHome({Key? key}) : super(key: key);
+
   @override
   State<AdmHome> createState() => _AdmHomeState();
 }
@@ -35,7 +37,7 @@ class _AdmHomeState extends State<AdmHome> {
       });
       final dio = Dio();
       Response response = await dio.post(
-          'https://course-registration-lnmiit.herokuapp.com/admin/updatePassword',
+          'https://guarded-mesa-99449.herokuapp.com/admin/updatePassword',
           data: {
             "userId": store.admin.userId,
             "passw": oldPassw.text,
@@ -43,17 +45,17 @@ class _AdmHomeState extends State<AdmHome> {
           });
       if (response.data.toString() == "Success") {
         String msg = "Password successfully changed.";
-        print(msg);
+        // print(msg);
         Fluttertoast.showToast(msg: msg);
         oldPassw.clear();
         newPass.clear();
       } else {
         String msg = "Incorrect Password";
-        print(msg);
+        // print(msg);
         Fluttertoast.showToast(msg: msg);
       }
     } catch (e) {
-      print(e);
+      // print(e);
       Fluttertoast.showToast(msg: "Something went wrong!");
     }
     setState(() {
@@ -67,18 +69,18 @@ class _AdmHomeState extends State<AdmHome> {
     try {
       final Dio _dio = Dio();
       Response response = await _dio.post(
-          'https://course-registration-lnmiit.herokuapp.com/course/availableCoursesInSem',
+          'https://guarded-mesa-99449.herokuapp.com/course/availableCoursesInSem',
           data: {"semester": semester});
-      print(response.data);
+      // print(response.data);
       if (response.data.toString() != "[]") {
-        print("Here");
+        // print("Here");
         CourseAvlbList.courseAvlbList = List.from(response.data)
             .map((itemMap) => CourseAvlb.fromMap(itemMap))
             .toList();
         store.courseAvlbList = CourseAvlbList.courseAvlbList;
         await Navigator.pushNamed(context, MyRoutes.viewAvlbCourses);
       } else {
-        print("No Data");
+        // print("No Data");
         Fluttertoast.showToast(msg: "No Availablability!");
       }
     } catch (e) {
@@ -96,7 +98,7 @@ class _AdmHomeState extends State<AdmHome> {
     try {
       final Dio _dio = Dio();
       Response response = await _dio.get(
-        'https://course-registration-lnmiit.herokuapp.com/course/deleteAllAvailableCourse',
+        'https://guarded-mesa-99449.herokuapp.com/course/deleteAllAvailableCourse',
       );
       if (response.data.toString() == "success") {
         Fluttertoast.showToast(msg: "Available Courses Successfully Deleted");
@@ -117,9 +119,9 @@ class _AdmHomeState extends State<AdmHome> {
     try {
       final Dio _dio = Dio();
       Response response = await _dio.post(
-          'https://course-registration-lnmiit.herokuapp.com/course/availableCoursesForBranch',
+          'https://guarded-mesa-99449.herokuapp.com/course/availableCoursesForBranch',
           data: {"branch": branch});
-      print("here");
+      // print("here");
       if (response.data.toString() != "[]") {
         CourseAvlbList.courseAvlbList = List.from(response.data)
             .map((itemMap) => CourseAvlb.fromMap(itemMap))
@@ -127,7 +129,7 @@ class _AdmHomeState extends State<AdmHome> {
         store.courseAvlbList = CourseAvlbList.courseAvlbList;
         await Navigator.pushNamed(context, MyRoutes.viewAvlbCourses);
       } else {
-        print("No Data");
+        // print("No Data");
         Fluttertoast.showToast(msg: "No Availablability!");
       }
     } catch (e) {
@@ -240,60 +242,58 @@ class _AdmHomeState extends State<AdmHome> {
           return SingleChildScrollView(
             child: Padding(
               padding: MediaQuery.of(context).viewInsets,
-              child: Container(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    "Update Password".text.bold.xl2.make().p12().centered(),
-                    CupertinoFormSection(children: [
-                      CupertinoFormRow(
-                        //padding: EdgeInsets.only(left: 0),
-                        child: CupertinoTextFormFieldRow(
-                          controller: oldPassw,
-                          obscureText: true,
-                          placeholder: "Old Password",
-                          // prefix: "Email".text.make(),
-                          padding: const EdgeInsets.only(left: 0),
-                          keyboardType: TextInputType.emailAddress,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return "Old Password can't be empty";
-                            }
-                            return null;
-                          },
-                          prefix: "Old Password ".text.caption(context).make(),
-                        ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  "Update Password".text.bold.xl2.make().p12().centered(),
+                  CupertinoFormSection(children: [
+                    CupertinoFormRow(
+                      //padding: EdgeInsets.only(left: 0),
+                      child: CupertinoTextFormFieldRow(
+                        controller: oldPassw,
+                        obscureText: true,
+                        placeholder: "Old Password",
+                        // prefix: "Email".text.make(),
+                        padding: const EdgeInsets.only(left: 0),
+                        keyboardType: TextInputType.emailAddress,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Old Password can't be empty";
+                          }
+                          return null;
+                        },
+                        prefix: "Old Password ".text.caption(context).make(),
                       ),
-                      CupertinoFormRow(
-                        //padding: EdgeInsets.only(left: 0),
-                        child: CupertinoTextFormFieldRow(
-                          controller: newPass,
-                          obscureText: true,
-                          placeholder: "New Password",
-                          // prefix: "Email".text.make(),
-                          padding: const EdgeInsets.only(left: 0),
-                          keyboardType: TextInputType.emailAddress,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return "New Password can't be empty";
-                            }
-                            return null;
-                          },
-                          prefix: "New Password ".text.caption(context).make(),
-                        ),
+                    ),
+                    CupertinoFormRow(
+                      //padding: EdgeInsets.only(left: 0),
+                      child: CupertinoTextFormFieldRow(
+                        controller: newPass,
+                        obscureText: true,
+                        placeholder: "New Password",
+                        // prefix: "Email".text.make(),
+                        padding: const EdgeInsets.only(left: 0),
+                        keyboardType: TextInputType.emailAddress,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "New Password can't be empty";
+                          }
+                          return null;
+                        },
+                        prefix: "New Password ".text.caption(context).make(),
                       ),
-                      IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                            updatePassword();
-                          },
-                          icon: const Icon(
-                            CupertinoIcons.right_chevron,
-                            size: 30,
-                          ))
-                    ])
-                  ],
-                ),
+                    ),
+                    IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          updatePassword();
+                        },
+                        icon: const Icon(
+                          CupertinoIcons.right_chevron,
+                          size: 30,
+                        ))
+                  ])
+                ],
               ),
             ),
           );

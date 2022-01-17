@@ -51,10 +51,10 @@ class Student {
 
   factory Student.fromMap(Map<String, dynamic> map) {
     return Student(
-      userid: map['userid'],
+      userid: map['userId'],
       name: map['name'],
       joining_year: map['joining_year'],
-      branch: map['branch'],
+      branch: map['Branch'],
     );
   }
 

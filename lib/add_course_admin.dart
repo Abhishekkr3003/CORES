@@ -31,15 +31,9 @@ class _AddCourseAdmState extends State<AddCourseAdm> {
   TextEditingController type = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    @override
-    void initState() {
-      super.initState();
-    }
-
     final MyStore store = VxState.store;
     final _formKey2 = GlobalKey<FormState>();
     late File file;
-    late String fileName = '';
 
     selectAttachment() async {
       FilePickerResult? result = await FilePicker.platform
@@ -48,9 +42,8 @@ class _AddCourseAdmState extends State<AddCourseAdm> {
         adding2 = true;
         setState(() {});
         file = File(result.files.single.path.toString());
-        fileName = result.files.first.name;
-        print('${file.readAsBytesSync()}');
-        print(fileName);
+        // print('${file.readAsBytesSync()}');
+        // print(fileName);
         try {
           FormData formData = FormData.fromMap({
             "file":
@@ -59,35 +52,28 @@ class _AddCourseAdmState extends State<AddCourseAdm> {
 
           final Dio _dio = Dio();
           Response response = await _dio.post(
-              'https://course-registration-lnmiit.herokuapp.com/course/addMultipleNewCourse',
+              'https://guarded-mesa-99449.herokuapp.com/course/addMultipleNewCourse',
               data: formData);
 
-          print('Adding: ${response.data}');
-          if (response.data is List) {
-            List<dynamic> res = response.data;
+          // print('Adding: ${response.data}');
 
-            Response response_ = await _dio.get(
-              'https://course-registration-lnmiit.herokuapp.com/course/list',
-            );
-            CourseList.courseList = List.from(response_.data)
-                .map((itemMap) => Course.fromMap(itemMap))
-                .toList();
-            store.courseList = CourseList.courseList;
-            Navigator.pop(context);
-            setState(() {
-              adding2 = false;
-            });
-            Fluttertoast.showToast(
-                msg: "${res.length} courses successfully added");
-          } else {
-            print("Not Added");
-            Fluttertoast.showToast(msg: "Please check your file and try again");
-            setState(() {
-              adding2 = false;
-            });
-          }
+          // List<dynamic> res = response.data;
+
+          Response response_ = await _dio.get(
+            'https://guarded-mesa-99449.herokuapp.com/course/list',
+          );
+          CourseList.courseList = List.from(response_.data)
+              .map((itemMap) => Course.fromMap(itemMap))
+              .toList();
+          store.courseList = CourseList.courseList;
+          setState(() {
+            adding2 = false;
+          });
+          Navigator.pop(context);
+
+          Fluttertoast.showToast(msg: response.data.toString());
         } catch (e) {
-          print(e);
+          // print(e);
           Fluttertoast.showToast(msg: e.toString());
           setState(() {
             adding = false;
@@ -104,26 +90,24 @@ class _AddCourseAdmState extends State<AddCourseAdm> {
               borderRadius: BorderRadius.vertical(top: Radius.circular(25.0))),
           builder: (BuildContext bc) {
             return SafeArea(
-              child: Container(
-                child: Wrap(
-                  children: <Widget>[
-                    "Type of Course".text.bold.xl2.make().p12().centered(),
-                    ListTile(
-                        // leading: Icon(CupertinoIcons.fir),
-                        title: const Text('CORE').centered(),
-                        onTap: () {
-                          type.text = "CORE";
-                          setState(() {});
-                        }),
-                    ListTile(
-                        // leading: Icon(Icons.contacts_outlined),
-                        title: const Text('ELECTIVE').centered(),
-                        onTap: () {
-                          type.text = "ELECTIVE";
-                          setState(() {});
-                        })
-                  ],
-                ),
+              child: Wrap(
+                children: <Widget>[
+                  "Type of Course".text.bold.xl2.make().p12().centered(),
+                  ListTile(
+                      // leading: Icon(CupertinoIcons.fir),
+                      title: const Text('CORE').centered(),
+                      onTap: () {
+                        type.text = "CORE";
+                        setState(() {});
+                      }),
+                  ListTile(
+                      // leading: Icon(Icons.contacts_outlined),
+                      title: const Text('ELECTIVE').centered(),
+                      onTap: () {
+                        type.text = "ELECTIVE";
+                        setState(() {});
+                      })
+                ],
               ),
             );
           });
@@ -132,13 +116,13 @@ class _AddCourseAdmState extends State<AddCourseAdm> {
     Future<void> sendQuery() async {
       if (_formKey2.currentState!.validate()) {
         adding = true;
-        print(adding);
-        print(name.text);
+        // print(adding);
+        // print(name.text);
         setState(() {});
         try {
           final Dio _dio = Dio();
           Response response = await _dio.post(
-            'https://course-registration-lnmiit.herokuapp.com/course/addNewCourse',
+            'https://guarded-mesa-99449.herokuapp.com/course/addNewCourse',
             data: {
               "course_id": courseID.text,
               "coursename": name.text,
@@ -147,11 +131,11 @@ class _AddCourseAdmState extends State<AddCourseAdm> {
             },
           );
 
-          print('Adding: ${response.data}');
+          // print('Adding: ${response.data}');
 
           if (response.data.toString() == "success") {
             Response response_ = await _dio.get(
-              'https://course-registration-lnmiit.herokuapp.com/course/list',
+              'https://guarded-mesa-99449.herokuapp.com/course/list',
             );
             CourseList.courseList = List.from(response_.data)
                 .map((itemMap) => Course.fromMap(itemMap))
@@ -166,7 +150,7 @@ class _AddCourseAdmState extends State<AddCourseAdm> {
             setState(() {
               adding = false;
             });
-            print(response.data);
+            // print(response.data);
             Fluttertoast.showToast(msg: "Not able to add");
           }
         } catch (e) {
@@ -175,7 +159,7 @@ class _AddCourseAdmState extends State<AddCourseAdm> {
             adding2 = false;
           });
           Fluttertoast.showToast(msg: 'Some error occured');
-          print('Error: $e');
+          // print('Error: $e');
         }
       }
     }

@@ -81,12 +81,12 @@ class ManageStudent extends StatelessWidget {
                   onChanged: (_) {},
                 ),
               ]),
-              HeightBox(20),
+              const HeightBox(20),
               ElevatedButton(
                   onPressed: () {
                     Navigator.pushNamed(context, MyRoutes.listStudent);
                   },
-                  child: Text(
+                  child: const Text(
                     "Submit",
                     style: TextStyle(),
                   ))

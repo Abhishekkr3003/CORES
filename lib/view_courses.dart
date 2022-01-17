@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/add_available_course.dart';
 import 'package:flutter_application_1/edit_courses.dart';
-import 'package:flutter_application_1/view_avlb_courses.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -16,6 +15,8 @@ import 'course_availability_class.dart';
 bool showLoading = false;
 
 class ViewCourses extends StatefulWidget {
+  const ViewCourses({Key? key}) : super(key: key);
+
   @override
   State<ViewCourses> createState() => _ViewCoursesState();
 }
@@ -29,9 +30,9 @@ class _ViewCoursesState extends State<ViewCourses> {
     try {
       final Dio _dio = Dio();
       Response response = await _dio.post(
-          'https://course-registration-lnmiit.herokuapp.com/course/courseAvailibility',
+          'https://guarded-mesa-99449.herokuapp.com/course/courseAvailibility',
           data: {"course_id": courseID});
-      print("here");
+      // print("here");
       if (response.data.toString() != "No Data Available") {
         CourseAvlbList.courseAvlbList = List.from(response.data)
             .map((itemMap) => CourseAvlb.fromMap(itemMap))
@@ -39,7 +40,7 @@ class _ViewCoursesState extends State<ViewCourses> {
         store.courseAvlbList = CourseAvlbList.courseAvlbList;
         await Navigator.pushNamed(context, MyRoutes.viewAvlbCourses);
       } else {
-        print("No Data");
+        // print("No Data");
         Fluttertoast.showToast(msg: "No Availablability!");
       }
     } catch (e) {
@@ -57,7 +58,7 @@ class _ViewCoursesState extends State<ViewCourses> {
       setState(() {});
       final Dio _dio = Dio();
       Response response = await _dio.get(
-        'https://course-registration-lnmiit.herokuapp.com/course/list',
+        'https://guarded-mesa-99449.herokuapp.com/course/list',
         options: Options(
           followRedirects: false,
           validateStatus: (status) {
@@ -75,7 +76,7 @@ class _ViewCoursesState extends State<ViewCourses> {
         Navigator.pop(context);
       }
     } catch (e) {
-      print(e);
+      // print(e);
       Fluttertoast.showToast(msg: e.toString());
       // setState(() {});
       Navigator.pop(context);
@@ -87,20 +88,20 @@ class _ViewCoursesState extends State<ViewCourses> {
     try {
       final Dio _dio = Dio();
       Response response = await _dio.post(
-          'https://course-registration-lnmiit.herokuapp.com/course/deleteCourse',
+          'https://guarded-mesa-99449.herokuapp.com/course/deleteCourse',
           data: {"course_id": courseID});
-      print('Deleting: ${response.data}');
+      // print('Deleting: ${response.data}');
 
       if (response.data.toString() == "success") {
-        print("Course successfully deleted");
+        // print("Course successfully deleted");
         Fluttertoast.showToast(msg: "Course successfully deleted");
         await fetchCourses();
       } else {
-        print("Something went wrong");
+        // print("Something went wrong");
         Fluttertoast.showToast(msg: "Something went wrong");
       }
     } catch (e) {
-      print(e);
+      // print(e);
       Fluttertoast.showToast(msg: e.toString());
     }
     showLoading = false;
@@ -109,7 +110,6 @@ class _ViewCoursesState extends State<ViewCourses> {
 
   @override
   void initState() {
-    // TODO: implement initState
     fetchCourses();
     super.initState();
   }
@@ -120,7 +120,7 @@ class _ViewCoursesState extends State<ViewCourses> {
       backgroundColor: Colors.white,
       body: SafeArea(
           child: (CourseList.courseList != null &&
-                  CourseList.courseList!.length > 0)
+                  CourseList.courseList!.isNotEmpty)
               ? Column(
                   children: [
                     Row(
@@ -168,7 +168,7 @@ class _ViewCoursesState extends State<ViewCourses> {
                             radius: 20,
                           ).centered().pOnly(top: 200)
                         : VxBuilder(
-                            mutations: {SearchMutation},
+                            mutations: const {SearchMutation},
                             builder: (context, _, __) => ListView.builder(
                               shrinkWrap: true,
                               itemCount: store.courseList!.length,

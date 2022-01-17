@@ -6,8 +6,6 @@ import 'package:velocity_x/velocity_x.dart';
 
 import 'package:flutter_application_1/course.dart';
 
-import 'Utils/my_store.dart';
-
 bool adding = false;
 
 class AddAvlbCourse extends StatefulWidget {
@@ -32,7 +30,7 @@ class _AddAvlbCourseState extends State<AddAvlbCourse> {
   _showPickerSemester() {
     showModalBottomSheet(
         context: context,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(25.0))),
         builder: (BuildContext bc) {
           return SingleChildScrollView(
@@ -41,14 +39,14 @@ class _AddAvlbCourseState extends State<AddAvlbCourse> {
                 "Semester".text.bold.xl2.make().p12().centered(),
                 ListView.builder(
                   itemCount: sems.length,
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     return ListTile(
                         // leading: Icon(CupertinoIcons.person_alt_circle),
-                        title: Text("${sems[index]}").centered(),
+                        title: Text(sems[index]).centered(),
                         onTap: () async {
-                          semester.text = "${sems[index]}";
+                          semester.text = sems[index];
                           setState(() {});
                           Navigator.pop(context);
                         });
@@ -70,14 +68,14 @@ class _AddAvlbCourseState extends State<AddAvlbCourse> {
                 "Branch".text.bold.xl2.make().p12().centered(),
                 ListView.builder(
                   itemCount: branches.length,
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     return ListTile(
                         // leading: Icon(CupertinoIcons.person_alt_circle),
-                        title: Text("${branches[index]}").centered(),
+                        title: Text(branches[index]).centered(),
                         onTap: () async {
-                          branch.text = "${branches[index]}";
+                          branch.text = branches[index];
                           setState(() {});
                           Navigator.pop(context);
                         });
@@ -91,22 +89,17 @@ class _AddAvlbCourseState extends State<AddAvlbCourse> {
 
   @override
   Widget build(BuildContext context) {
-    @override
-    void initState() {
-      super.initState();
-    }
-
     final _formKey2 = GlobalKey<FormState>();
 
     Future<void> sendQuery() async {
       if (_formKey2.currentState!.validate()) {
         adding = true;
-        print(adding);
+        // print(adding);
         setState(() {});
         try {
           final Dio _dio = Dio();
           Response response = await _dio.post(
-            'https://course-registration-lnmiit.herokuapp.com/course/addAvailableCourse',
+            'https://guarded-mesa-99449.herokuapp.com/course/addAvailableCourse',
             data: {
               "course_id": widget.course.course_id,
               "semester": semester.text,
@@ -115,13 +108,13 @@ class _AddAvlbCourseState extends State<AddAvlbCourse> {
               "grp": grp.text
             },
           );
-          print(widget.course.course_id);
-          print(semester.text);
-          print(branch.text);
-          print(seats.text);
-          print(grp.text);
+          // print(widget.course.course_id);
+          // print(semester.text);
+          // print(branch.text);
+          // print(seats.text);
+          // print(grp.text);
 
-          print('Adding: ${response.data}');
+          // print('Adding: ${response.data}');
 
           if (response.data.toString() == "success") {
             Navigator.pop(context);
@@ -133,7 +126,7 @@ class _AddAvlbCourseState extends State<AddAvlbCourse> {
             setState(() {
               adding = false;
             });
-            print(response.data);
+            // print(response.data);
             Fluttertoast.showToast(msg: "Not able to Add.");
           }
         } catch (e) {
@@ -141,7 +134,7 @@ class _AddAvlbCourseState extends State<AddAvlbCourse> {
             adding = false;
           });
           Fluttertoast.showToast(msg: 'Some error occured');
-          print('Error: $e');
+          // print('Error: $e');
         }
       }
     }
@@ -163,7 +156,7 @@ class _AddAvlbCourseState extends State<AddAvlbCourse> {
                       "Add Course Availability".text.bold.xl5.make().expand(),
                       IconButton(
                         onPressed: () => Navigator.pop(context),
-                        icon: Icon(CupertinoIcons.chevron_back),
+                        icon: const Icon(CupertinoIcons.chevron_back),
                         iconSize: 40,
                       )
                     ],
@@ -193,7 +186,7 @@ class _AddAvlbCourseState extends State<AddAvlbCourse> {
                           prefix: "Branch ".text.caption(context).make(),
                           decoration: const BoxDecoration(color: Colors.white),
                           readOnly: true,
-                          padding: EdgeInsets.only(left: 0),
+                          padding: const EdgeInsets.only(left: 0),
                         ),
                       ),
                       CupertinoFormRow(
@@ -211,7 +204,7 @@ class _AddAvlbCourseState extends State<AddAvlbCourse> {
                           prefix: "Semester ".text.caption(context).make(),
                           decoration: const BoxDecoration(color: Colors.white),
                           readOnly: true,
-                          padding: EdgeInsets.only(left: 0),
+                          padding: const EdgeInsets.only(left: 0),
                         ),
                       ),
                       CupertinoFormRow(
@@ -227,7 +220,7 @@ class _AddAvlbCourseState extends State<AddAvlbCourse> {
                           },
                           placeholder: "Seats",
                           prefix: "Seats ".text.caption(context).make(),
-                          padding: EdgeInsets.only(left: 0),
+                          padding: const EdgeInsets.only(left: 0),
                         ),
                       ),
                       CupertinoFormRow(
@@ -244,7 +237,7 @@ class _AddAvlbCourseState extends State<AddAvlbCourse> {
                           placeholder: "Group",
                           keyboardType: TextInputType.number,
                           prefix: "Group ".text.caption(context).make(),
-                          padding: EdgeInsets.only(left: 0),
+                          padding: const EdgeInsets.only(left: 0),
                         ),
                       ),
                     ],
@@ -268,14 +261,15 @@ class _AddAvlbCourseState extends State<AddAvlbCourse> {
                       ],
                     ),
                     child: adding
-                        ? CircularProgressIndicator(
+                        ? const CircularProgressIndicator(
                             color: Colors.grey,
                           )
                         : IconButton(
                             onPressed: () {
                               sendQuery();
                             },
-                            icon: Icon(CupertinoIcons.checkmark_seal_fill),
+                            icon:
+                                const Icon(CupertinoIcons.checkmark_seal_fill),
                             iconSize: 60,
                             color: Colors.grey,
                           ).centered(),
