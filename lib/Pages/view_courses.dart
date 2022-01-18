@@ -1,16 +1,16 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/add_available_course.dart';
-import 'package:flutter_application_1/edit_courses.dart';
+import 'package:flutter_application_1/Pages/add_available_course.dart';
+import 'package:flutter_application_1/Pages/edit_courses.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-import 'package:flutter_application_1/Utils/my_store.dart';
+import 'package:flutter_application_1/Stores/my_store.dart';
 import 'package:flutter_application_1/Utils/routes.dart';
-import 'package:flutter_application_1/course.dart';
+import 'package:flutter_application_1/Stores/course.dart';
 
-import 'course_availability_class.dart';
+import '../Stores/course_availability_class.dart';
 
 bool showLoading = false;
 

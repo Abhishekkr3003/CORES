@@ -5,9 +5,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-import 'package:flutter_application_1/Utils/my_store.dart';
+import 'package:flutter_application_1/Stores/my_store.dart';
 
-import 'course_availability_class.dart';
+import '../Stores/course_availability_class.dart';
 
 bool showLoading = false;
 

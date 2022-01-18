@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:velocity_x/velocity_x.dart';
 
-import 'Utils/my_store.dart';
+import 'my_store.dart';
 
 class CourseList {
   static List<Course>? courseList;

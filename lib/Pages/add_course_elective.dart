@@ -6,8 +6,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-import 'Utils/my_store.dart';
-import 'course.dart';
+import '../Stores/my_store.dart';
+import '../Stores/course.dart';
 
 bool showLoading = false;
 bool saved = false;
@@ -499,9 +499,6 @@ class _AddCourseElectiveState extends State<AddCourseElective> {
                         onTap: () {
                           Navigator.popAndPushNamed(
                               context, MyRoutes.viewRegisteredCourse);
-                          // print(store.courseList);
-                          // print(registered);
-                          // print(registeredGrpId);
                         },
                         child: Container(
                             width: 120,

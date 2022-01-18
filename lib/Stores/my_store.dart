@@ -1,9 +1,9 @@
-import 'package:flutter_application_1/course_availability_class.dart';
+import 'package:flutter_application_1/Stores/course_availability_class.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-import '../admin.dart';
-import '../course.dart';
-import '../student.dart';
+import 'admin.dart';
+import 'course.dart';
+import 'student.dart';
 
 class MyStore extends VxStore {
   List<Course>? courseList;

@@ -1,15 +1,15 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/edit_student.dart';
-import 'package:flutter_application_1/student.dart';
+import 'package:flutter_application_1/Pages/edit_student.dart';
+import 'package:flutter_application_1/Stores/student.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-import 'package:flutter_application_1/Utils/my_store.dart';
+import 'package:flutter_application_1/Stores/my_store.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'student.dart';
+import '../Stores/student.dart';
 
 bool showLoading = false;
 

@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-import 'Utils/my_store.dart';
-import 'student.dart';
+import '../Stores/my_store.dart';
+import '../Stores/student.dart';
 
 bool adding = false;
 

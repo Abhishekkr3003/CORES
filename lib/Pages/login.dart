@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/Utils/my_store.dart';
+import 'package:flutter_application_1/Stores/my_store.dart';
 import 'package:flutter_application_1/Utils/routes.dart';
-import 'package:flutter_application_1/admin.dart';
-import 'package:flutter_application_1/student.dart';
+import 'package:flutter_application_1/Stores/admin.dart';
+import 'package:flutter_application_1/Stores/student.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -56,79 +56,79 @@ class _LoginPageState extends State<LoginPage> {
         });
   }
 
-  Future<void> forgetPassword() async {
-    try {
-      final dio = Dio();
-      Response response = await dio.post(
-          'https://guarded-mesa-99449.herokuapp.com/student/resetPassword',
-          data: {
-            "userId": username.text,
-          });
-      if (response.data.toString() == "success") {
-        String msg = "Password successfully sent.";
-        // print(msg);
-        Fluttertoast.showToast(msg: msg);
-      } else {
-        // print(response.data);
-        String msg = "User not found";
-        // print(msg);
-        Fluttertoast.showToast(msg: msg);
-      }
-    } catch (e) {
-      // print(e);
-      Fluttertoast.showToast(msg: "Something went wrong!");
-    }
-  }
+  // Future<void> forgetPassword() async {
+  //   try {
+  //     final dio = Dio();
+  //     Response response = await dio.post(
+  //         'https://guarded-mesa-99449.herokuapp.com/student/resetPassword',
+  //         data: {
+  //           "userId": username.text,
+  //         });
+  //     if (response.data.toString() == "success") {
+  //       String msg = "Password successfully sent.";
+  //       // print(msg);
+  //       Fluttertoast.showToast(msg: msg);
+  //     } else {
+  //       // print(response.data);
+  //       String msg = "User not found";
+  //       // print(msg);
+  //       Fluttertoast.showToast(msg: msg);
+  //     }
+  //   } catch (e) {
+  //     // print(e);
+  //     Fluttertoast.showToast(msg: "Something went wrong!");
+  //   }
+  // }
 
-  _showPickerForgotPassword() {
-    showModalBottomSheet(
-        isScrollControlled: true,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(25.0))),
-        context: context,
-        builder: (BuildContext bc) {
-          return SingleChildScrollView(
-            child: Padding(
-              padding: MediaQuery.of(context).viewInsets,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  "Forgot Password".text.bold.xl2.make().p12().centered(),
-                  CupertinoFormSection(children: [
-                    CupertinoFormRow(
-                      //padding: EdgeInsets.only(left: 0),
-                      child: CupertinoTextFormFieldRow(
-                        controller: username,
-                        style: GoogleFonts.poppins(),
-                        placeholder: "User ID",
-                        // prefix: "Email".text.make(),
-                        padding: const EdgeInsets.only(left: 0),
-                        keyboardType: TextInputType.emailAddress,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return "User ID can't be empty";
-                          }
-                          return null;
-                        },
-                        prefix: "User ID ".text.caption(context).make(),
-                      ),
-                    ),
-                    IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                          forgetPassword();
-                        },
-                        icon: const Icon(
-                          CupertinoIcons.right_chevron,
-                          size: 30,
-                        ))
-                  ])
-                ],
-              ),
-            ),
-          );
-        });
-  }
+  // _showPickerForgotPassword() {
+  //   showModalBottomSheet(
+  //       isScrollControlled: true,
+  //       shape: const RoundedRectangleBorder(
+  //           borderRadius: BorderRadius.vertical(top: Radius.circular(25.0))),
+  //       context: context,
+  //       builder: (BuildContext bc) {
+  //         return SingleChildScrollView(
+  //           child: Padding(
+  //             padding: MediaQuery.of(context).viewInsets,
+  //             child: Column(
+  //               mainAxisSize: MainAxisSize.min,
+  //               children: <Widget>[
+  //                 "Forgot Password".text.bold.xl2.make().p12().centered(),
+  //                 CupertinoFormSection(children: [
+  //                   CupertinoFormRow(
+  //                     //padding: EdgeInsets.only(left: 0),
+  //                     child: CupertinoTextFormFieldRow(
+  //                       controller: username,
+  //                       style: GoogleFonts.poppins(),
+  //                       placeholder: "User ID",
+  //                       // prefix: "Email".text.make(),
+  //                       padding: const EdgeInsets.only(left: 0),
+  //                       keyboardType: TextInputType.emailAddress,
+  //                       validator: (value) {
+  //                         if (value!.isEmpty) {
+  //                           return "User ID can't be empty";
+  //                         }
+  //                         return null;
+  //                       },
+  //                       prefix: "User ID ".text.caption(context).make(),
+  //                     ),
+  //                   ),
+  //                   IconButton(
+  //                       onPressed: () {
+  //                         Navigator.pop(context);
+  //                         forgetPassword();
+  //                       },
+  //                       icon: const Icon(
+  //                         CupertinoIcons.right_chevron,
+  //                         size: 30,
+  //                       ))
+  //                 ])
+  //               ],
+  //             ),
+  //           ),
+  //         );
+  //       });
+  // }
 
   void moveToHome() async {
     if (_formKey.currentState!.validate()) {
@@ -295,10 +295,10 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ],
                 ).pLTRB(32, 32, 32, 5),
-                GestureDetector(
-                        onTap: _showPickerForgotPassword,
-                        child: "Forgot Password?".text.caption(context).make())
-                    .centered(),
+                // GestureDetector(
+                //         onTap: _showPickerForgotPassword,
+                //         child: "Forgot Password?".text.caption(context).make())
+                //     .centered(),
                 adding
                     ? const CupertinoActivityIndicator(
                         radius: 20,

@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-import 'Utils/my_store.dart';
-import 'course.dart';
+import '../Stores/my_store.dart';
+import '../Stores/course.dart';
 
 bool adding = false;
 bool adding2 = false;
