@@ -16,6 +16,7 @@ CORES is a user friendly and complete application for course registration and is
 
 </div>
 
+
 ## Download APK
 You can download the latest installable version of CORES for Android: [cores.apk](https://drive.google.com/file/d/1B30qAOKGvLq0E8BGGns3bkSjQkHBR8G9/view?usp=sharing)
 
@@ -236,6 +237,8 @@ class MyApp extends StatelessWidget {
 ```
 
 ## Backend
+
 API: [Cores-API](https://github.com/Abhishekkr3003/Cores-API)
+
 Database: MySQL ([More details](https://github.com/Abhishekkr3003/Cores-API))
 
